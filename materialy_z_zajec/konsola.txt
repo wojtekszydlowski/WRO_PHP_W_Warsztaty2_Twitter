@@ -1,0 +1,210 @@
+Enter password:
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 55
+Server version: 5.7.14 MySQL Community Server (GPL)
+
+Copyright (c) 2000, 2016, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> echo Hellp
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that
+corresponds to your MySQL server version for the right syntax to use near 'echo
+Hellp' at line 1
+mysql> echo Hello;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that
+corresponds to your MySQL server version for the right syntax to use near 'echo
+Hello' at line 1
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| projectclinic      |
+| sys                |
+| twitter            |
++--------------------+
+6 rows in set (0.00 sec)
+
+mysql> use twitter
+Database changed
+mysql> show tables;
++-------------------+
+| Tables_in_twitter |
++-------------------+
+| users             |
++-------------------+
+1 row in set (0.00 sec)
+
+mysql> create table users (id int auto_increment Primary Key, email varchar(255)
+,username varchar(255), hashed_password varchar(60));
+ERROR 1050 (42S01): Table 'users' already exists
+mysql> create table users2 (id int auto_increment Primary Key, email varchar(255
+),username varchar(255), hashed_password varchar(60));
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> desc users
+    -> ;
++-----------------+---------------+------+-----+---------+----------------+
+| Field           | Type          | Null | Key | Default | Extra          |
++-----------------+---------------+------+-----+---------+----------------+
+| id              | int(11)       | NO   | PRI | NULL    | auto_increment |
+| email           | varchar(255)  | NO   | UNI | NULL    |                |
+| username        | varchar(2555) | NO   |     | NULL    |                |
+| hashed_password | varchar(60)   | NO   |     | NULL    |                |
++-----------------+---------------+------+-----+---------+----------------+
+4 rows in set (0.00 sec)
+
+mysql> desc users2
+    -> ;
++-----------------+--------------+------+-----+---------+----------------+
+| Field           | Type         | Null | Key | Default | Extra          |
++-----------------+--------------+------+-----+---------+----------------+
+| id              | int(11)      | NO   | PRI | NULL    | auto_increment |
+| email           | varchar(255) | YES  |     | NULL    |                |
+| username        | varchar(255) | YES  |     | NULL    |                |
+| hashed_password | varchar(60)  | YES  |     | NULL    |                |
++-----------------+--------------+------+-----+---------+----------------+
+4 rows in set (0.00 sec)
+
+mysql> alter table users2 (id int auto_increment Primary Key, email varchar(255)
+ unique,username varchar(255), hashed_password varchar(60));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that
+corresponds to your MySQL server version for the right syntax to use near '(id i
+nt auto_increment Primary Key, email varchar(255) unique,username varchar(2' at
+line 1
+mysql> alter table modif users2 (id int auto_increment Primary Key, email varcha
+r(255) unique,username varchar(255), hashed_password varchar(60));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that
+corresponds to your MySQL server version for the right syntax to use near 'users
+2 (id int auto_increment Primary Key, email varchar(255) unique,username va' at
+line 1
+mysql> alter table  users2 modify email varchar(255) unique
+    -> ;
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc users2
+    -> ;
++-----------------+--------------+------+-----+---------+----------------+
+| Field           | Type         | Null | Key | Default | Extra          |
++-----------------+--------------+------+-----+---------+----------------+
+| id              | int(11)      | NO   | PRI | NULL    | auto_increment |
+| email           | varchar(255) | YES  | UNI | NULL    |                |
+| username        | varchar(255) | YES  |     | NULL    |                |
+| hashed_password | varchar(60)  | YES  |     | NULL    |                |
++-----------------+--------------+------+-----+---------+----------------+
+4 rows in set (0.00 sec)
+
+mysql> select * from users
+    -> ;
++----+-----------------------+-------------+------------------------------------
+--------------------------+
+| id | email                 | username    | hashed_password
+                          |
++----+-----------------------+-------------+------------------------------------
+--------------------------+
+|  2 | ala@gmail.com         | ala         | $2y$10$szrUw8IJ4cyo.zyYCJPLaeeJgqgg
+XP8qnRnnvAK48ieEMnIuj3/2S |
+|  3 |                       |             |
+                          |
+|  4 | lubiepaczki@gmail.com | Super_Grupa | $2y$10$NQYkDaCZQIWrQnCI5TmBfeDeQVzp
+96wnxrewvcygb7qixz6SQx/76 |
++----+-----------------------+-------------+------------------------------------
+--------------------------+
+3 rows in set (0.00 sec)
+
+mysql> INSERT INTO users(username,email,hashed_password) VALUES  ('grupa','ala@a
+la.com','fgsdhfgsdkhgfskjdgfksdgfysad');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from users;
++----+-----------------------+-------------+------------------------------------
+--------------------------+
+| id | email                 | username    | hashed_password
+                          |
++----+-----------------------+-------------+------------------------------------
+--------------------------+
+|  2 | ala@gmail.com         | ala         | $2y$10$szrUw8IJ4cyo.zyYCJPLaeeJgqgg
+XP8qnRnnvAK48ieEMnIuj3/2S |
+|  3 |                       |             |
+                          |
+|  4 | lubiepaczki@gmail.com | Super_Grupa | $2y$10$NQYkDaCZQIWrQnCI5TmBfeDeQVzp
+96wnxrewvcygb7qixz6SQx/76 |
+|  5 | ala@ala.com           | grupa       | fgsdhfgsdkhgfskjdgfksdgfysad
+                          |
++----+-----------------------+-------------+------------------------------------
+--------------------------+
+4 rows in set (0.00 sec)
+
+mysql> select * from users;
++----+-----------------------+-------------+------------------------------------
+--------------------------+
+| id | email                 | username    | hashed_password
+                          |
++----+-----------------------+-------------+------------------------------------
+--------------------------+
+|  2 | ala@gmail.com         | ala         | $2y$10$szrUw8IJ4cyo.zyYCJPLaeeJgqgg
+XP8qnRnnvAK48ieEMnIuj3/2S |
+|  3 |                       |             |
+                          |
+|  4 | lubiepaczki@gmail.com | Super_Grupa | $2y$10$NQYkDaCZQIWrQnCI5TmBfeDeQVzp
+96wnxrewvcygb7qixz6SQx/76 |
+|  5 | ala@ala.com           | grupa       | fgsdhfgsdkhgfskjdgfksdgfysad
+                          |
++----+-----------------------+-------------+------------------------------------
+--------------------------+
+4 rows in set (0.00 sec)
+
+mysql> UPDATE users(username,email,hashed_password) SET ('Super_Grupa2','lubiepa
+czkizbudyniem@gmail.com','$2y$10$NQYkDaCZQIWrQnCI5TmBfeDeQVzp96wnxrewvcygb7qixz6
+SQx/76') WHERE id=4
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that
+corresponds to your MySQL server version for the right syntax to use near '(user
+name,email,hashed_password) SET ('Super_Grupa2','lubiepaczkizbudyniem@gmail' at
+line 1
+mysql> UPDATE users(username,email,hashed_password) SET ('Super_Grupa2','lubiepa
+czkizbudyniem@gmail.com','$2y$10$NQYkDaCZQIWrQnCI5TmBfeDeQVzp96wnxrewvcygb7qixz6
+SQx/76') WHERE id= 4
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that
+corresponds to your MySQL server version for the right syntax to use near '(user
+name,email,hashed_password) SET ('Super_Grupa2','lubiepaczkizbudyniem@gmail' at
+line 1
+mysql> UPDATE users(username,email,hashed_password) SET ('Super_Grupa2','lubiepa
+czkizbudyniem@gmail.com','$2y$10$NQYkDaCZQIWrQnCI5TmBfeDeQVzp96wnxrewvcygb7qixz6
+SQx/76') WHERE 'id' = 4;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that
+corresponds to your MySQL server version for the right syntax to use near '(user
+name,email,hashed_password) SET ('Super_Grupa2','lubiepaczkizbudyniem@gmail' at
+line 1
+mysql> UPDATE users SET ('Super_Grupa2','lubiepaczkizbudyniem@gmail.com','$2y$10
+$NQYkDaCZQIWrQnCI5TmBfeDeQVzp96wnxrewvcygb7qixz6SQx/76') WHERE id = 4;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that
+corresponds to your MySQL server version for the right syntax to use near '('Sup
+er_Grupa2','lubiepaczkizbudyniem@gmail.com','$2y$10$NQYkDaCZQIWrQnCI5TmBfeD' at
+line 1
+mysql> UPDATE users SET (username = 'Super_Grupa2',email = 'lubiepaczkizbudyniem
+@gmail.com',hashed_password ='$2y$10$NQYkDaCZQIWrQnCI5TmBfeDeQVzp96wnxrewvcygb7q
+ixz6SQx/76') WHERE id=4
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that
+corresponds to your MySQL server version for the right syntax to use near '(user
+name = 'Super_Grupa2',email = 'lubiepaczkizbudyniem@gmail.com',hashed_passw' at
+line 1
+mysql> UPDATE users SET username = 'Super_Grupa2',email = 'lubiepaczkizbudyniem@
+gmail.com',hashed_password ='$2y$10$NQYkDaCZQIWrQnCI5TmBfeDeQVzp96wnxrewvcygb7qi
+xz6SQx/76' WHERE id=4
+    -> ;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql>
